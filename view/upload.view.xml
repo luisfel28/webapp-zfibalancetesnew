@@ -1,0 +1,210 @@
+<mvc:View controllerName="com.fidelidademundial.zfibalancetes.controller.upload"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:l="sap.ui.layout"
+    xmlns:u="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+    xmlns:flow="sap.suite.ui.commons"
+    xmlns:t="sap.ui.table"
+    xmlns:f="sap.ui.layout.form"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}" class="sapUiContentPadding sapUiResponsivePadding--content sapUiResponsivePadding--footer">
+        <f:SimpleForm id="FormGeral"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title="Dados Gerais"
+			singleContainerFullSize="false" >
+            <f:content>
+                <VBox>
+                    <HBox>
+                        <VBox width="130px">
+                            <Label text="Sociedade" class="TxtDados" required="true" labelFor="ComboSociedade"/>
+                        </VBox>
+                        <VBox>
+                            <ComboBox
+                                id="ComboSociedade"
+                                class="TxtCombos"
+                                width="150px"                                
+                                showSecondaryValues= "true"
+                                items="{
+                                    path: '/zentshsociedadesSet',
+                                    sorter: { path: 'Rcomp' }
+                                }">
+                                <core:ListItem key="{Rcomp}" text="{Rcomp}" additionalText="{Name1}"/>
+                            </ComboBox>                        
+                        </VBox>
+                    </HBox> 
+                    <HBox>
+                        <VBox width="130px">
+                            <Label text="Período/Exercício" class="TxtDados" required="true" labelFor="TxtPeriodoExercicio"/>
+                        </VBox>
+                        <VBox>
+                            <DatePicker
+                                id="TxtPeriodoExercicio"
+                                placeholder="mês-ano"
+                                class="TxtCombos"
+                                width="150px" 
+                                value="{
+                                    'path':'/valueExercicio',
+                                    'type': 'sap.ui.model.type.Date',
+                                    'formatOptions': {
+                                        'pattern': 'MM-y'
+                                    }
+                                }"
+                                change="handleChange" />              
+                        </VBox>          
+                    </HBox> 
+                </VBox>
+            </f:content>
+        </f:SimpleForm>        
+        <f:SimpleForm id="FormInt"
+			editable="true"
+            class="Sessoes"            
+			layout="ResponsiveGridLayout"
+			title="Dados de Integração"
+			singleContainerFullSize="false" >
+            <f:content>
+                <l:VerticalLayout>
+                            <l:HorizontalLayout>
+                                <l:VerticalLayout>
+                                    <Label text="Ficheiro" labelFor="fileUploader" class="TxtDados" required="true"></Label>
+                                    <u:FileUploader
+                                        id="fileUploader"
+                                        mimeType="text/csv"
+                                        width="500px" 
+                                        name="myFileUpload"
+                                        uploadUrl="upload/"
+                                        tooltip="Selecionar ficheiro com os dados do balancete que será importado"
+                                        uploadComplete="handleUploadComplete"/>
+                                </l:VerticalLayout>
+                                <l:VerticalLayout>
+                                    <Button
+                                        visible="false"
+                                        class="BotPre"
+                                        text="Pré-Visualizar Dados do Ficheiro"
+                                        type="Default"
+                                        tooltip="Exibir dados do ficheiro"
+                                        press="handlePreVisuPress"/>                
+                                </l:VerticalLayout>
+                            </l:HorizontalLayout>
+                            <l:HorizontalLayout>
+                                <l:VerticalLayout>
+                                    <t:Table id="CSVTable" class="sapUiSmallMarginTop" visible="false" visibleRowCount="7" selectionMode="None" alternateRowColors="true" />
+                                </l:VerticalLayout>                    
+                            </l:HorizontalLayout>
+                            <l:HorizontalLayout>
+                                <l:VerticalLayout>
+                                    <Label text="Execução de Teste de verificação do conteúdo do ficheiro" labelFor="ChkModoExec" class="TxtDados"></Label>
+                                    <Switch id="ChkModoExec" state="false">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1" />
+                                        </layoutData>
+                                    </Switch>
+                                </l:VerticalLayout>
+                            </l:HorizontalLayout>
+                </l:VerticalLayout>
+            </f:content>
+        </f:SimpleForm>
+        <f:SimpleForm id="FormFlow"
+			editable="true"
+            class="Sessoes"
+			layout="ResponsiveGridLayout"
+			title="Processamento"
+			singleContainerFullSize="false" >
+            <f:content>        
+                	<FlexBox height="400px" renderType="Bare">
+			            <flow:ProcessFlow id="FlowBalancetes" nodePress="onNodePress">
+				            <flow:nodes>
+                                <flow:ProcessFlowNode
+                                    nodeId="Node1"
+                                    laneId="Etapa1"
+                                    title="Etapa 1"
+                                    titleAbbreviation="Etapa 1"
+                                    children="Node2"
+                                    state="Neutral"
+                                    stateText="{i18n>FlowStatusInicial}"
+                                    />
+                                <flow:ProcessFlowNode
+                                    nodeId="Node2"
+                                    laneId="Etapa2"
+                                    title="Etapa 2"
+                                    titleAbbreviation="Etapa 2"
+                                    children="Node3"
+                                    state="Neutral"
+                                    stateText="{i18n>FlowStatusInicial}" />
+                                <flow:ProcessFlowNode
+                                    nodeId="Node2_1"
+                                    laneId="Etapa2_1"
+                                    title="Etapa 2_1"
+                                    titleAbbreviation="Etapa 2_1"
+                                    children="Node3"
+                                    state="Neutral"
+                                    stateText="{i18n>FlowStatusInicial}" />
+                                <flow:ProcessFlowNode
+                                    nodeId="Node3"
+                                    laneId="Etapa3"
+                                    title="Etapa 3"
+                                    titleAbbreviation="Etapa 3"
+                                    children="Node4"
+                                    state="Neutral"
+                                    stateText="{i18n>FlowStatusInicial}" />                           
+                                <flow:ProcessFlowNode
+                                    nodeId="Node4"
+                                    laneId="Etapa4"
+                                    title="Etapa 4"
+                                    titleAbbreviation="Etapa 4"
+                                    state="Neutral"
+                                    stateText="{i18n>FlowStatusInicial}" />                           
+                            </flow:nodes>
+				            <flow:lanes>
+                                <flow:ProcessFlowLaneHeader
+                                    laneId="Etapa1"
+                                    iconSrc="sap-icon://download"
+                                    text="Importação Ficheiro"
+                                    position="0" />
+                                <flow:ProcessFlowLaneHeader
+                                    laneId="Etapa2"
+                                    iconSrc="sap-icon://order-status"
+                                    text="Processa Balancetes"
+                                    position="1" />
+                                <flow:ProcessFlowLaneHeader
+                                    laneId="Etapa2_1"
+                                    iconSrc="sap-icon://order-status"
+                                    text="Consolida Balancetes"
+                                    position="1" />                                    
+                                <flow:ProcessFlowLaneHeader
+                                    laneId="Etapa3"
+                                    iconSrc="sap-icon://paper-plane"
+                                    text="Envio de E-mails"
+                                    position="2" />
+                                <flow:ProcessFlowLaneHeader
+                                    laneId="Etapa4"
+                                    iconSrc="sap-icon://complete"
+                                    text="Conclusão"
+                                    position="3" />                                    
+				            </flow:lanes>          
+                    </flow:ProcessFlow>
+		        </FlexBox>
+            </f:content>
+        </f:SimpleForm>            
+        <footer>
+            <OverflowToolbar >
+                <MessageStrip
+                    id="MsgStrip"
+                    visible="false"
+                    enableFormattedText="true"
+                    showIcon="true"
+                    showCloseButton="true"
+                >
+                </MessageStrip>            
+                <ToolbarSpacer/>
+                <Button
+                        text="Importar Dados"
+                        class="BotCarga"
+                        type="Emphasized" 
+                        tooltip="Iniciar Importação"
+                        press="onApproveDialogPress"/> 
+            </OverflowToolbar>
+        </footer>        
+    </Page>
+</mvc:View>
+

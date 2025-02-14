@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+		xmlns="sap.m"
+		xmlns:t="sap.ui.table"
+		xmlns:f="sap.ui.layout.form"
+		xmlns:core="sap.ui.core">
+	<ResponsivePopover
+			id="detailsPopover02"
+			title="{i18n>titleEtapa02}"
+			icon="sap-icon://order-status"
+			class="sapUiResponsivePadding--header"
+			showCloseButton="true"
+			placement="Auto">
+			<VBox class="sapUiSmallMargin">
+			<t:TreeTable width="100%" id="TabDetails02" selectionMode="None"
+				rows="{ 
+					path:'resultados>/',
+					parameters : {
+						numberOfExpandedLevels: 1
+						}
+					}" 
+					alternateRowColors="true">
+					<t:columns>
+						<t:Column hAlign="Center" width="35rem">
+							<Label text="Processos"/>
+							<t:template>
+									<Text text="{resultados>ZmonGrupo}" wrapping="false" />
+							</t:template>					
+						</t:Column>
+						<t:Column hAlign="Center" width="5rem">
+							<Label text="Status"/>
+							<t:template>
+									<ObjectStatus icon="{resultados>ZmonStatus}" state="{resultados>ZmonDescr}" />
+							</t:template>	
+						</t:Column>														
+					</t:columns>
+				</t:TreeTable>	
+			</VBox>
+	</ResponsivePopover>
+</core:FragmentDefinition>
