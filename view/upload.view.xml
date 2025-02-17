@@ -94,13 +94,24 @@
                             <l:HorizontalLayout>
                                 <l:VerticalLayout>
                                     <Label text="Execução de Teste de verificação do conteúdo do ficheiro" labelFor="ChkModoExec" class="TxtDados"></Label>
-                                    <Switch id="ChkModoExec" state="false">
+                                    <Switch id="ChkModoExec" state="false" change="pressTest">
                                         <layoutData>
                                             <FlexItemData growFactor="1" />
                                         </layoutData>
                                     </Switch>
                                 </l:VerticalLayout>
                             </l:HorizontalLayout>
+                            <l:HorizontalLayout class="sapUiSmallMarginTop">
+                                <l:VerticalLayout>
+                                    <Label text="Execução de Teste de Contabilização" labelFor="ChkModoExecCont" class="TxtDados"></Label>
+                                    <Switch id="ChkModoExecCont" state="false">
+                                        <layoutData>
+                                            <FlexItemData growFactor="1" />
+                                        </layoutData>
+                                    </Switch>
+                                    <Link id="LnkContRes" visible="false" text="Ver resultados da simulação da Contabilização" press="ShowNode2_1" />
+                                </l:VerticalLayout>
+                            </l:HorizontalLayout>                            
                 </l:VerticalLayout>
             </f:content>
         </f:SimpleForm>
@@ -135,7 +146,7 @@
                                     nodeId="Node2_1"
                                     laneId="Etapa2_1"
                                     title="Etapa 2_1"
-                                    titleAbbreviation="Etapa 2.1"
+                                    titleAbbreviation="Etapa 3"
                                     children="Node3"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}" />
@@ -143,7 +154,7 @@
                                     nodeId="Node3"
                                     laneId="Etapa3"
                                     title="Etapa 3"
-                                    titleAbbreviation="Etapa 3"
+                                    titleAbbreviation="Etapa 4"
                                     children="Node4"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}" />                           
@@ -151,7 +162,7 @@
                                     nodeId="Node4"
                                     laneId="Etapa4"
                                     title="Etapa 4"
-                                    titleAbbreviation="Etapa 4"
+                                    titleAbbreviation="Etapa 5"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}" />                           
                             </flow:nodes>
@@ -169,18 +180,18 @@
                                 <flow:ProcessFlowLaneHeader
                                     laneId="Etapa2_1"
                                     iconSrc="sap-icon://order-status"
-                                    text="Consolida Balancetes"
-                                    position="1" />                                    
+                                    text="Contabiliza Balancetes"
+                                    position="2" />                                    
                                 <flow:ProcessFlowLaneHeader
                                     laneId="Etapa3"
                                     iconSrc="sap-icon://paper-plane"
                                     text="Envio de E-mails"
-                                    position="2" />
+                                    position="3" />
                                 <flow:ProcessFlowLaneHeader
                                     laneId="Etapa4"
                                     iconSrc="sap-icon://complete"
                                     text="Conclusão"
-                                    position="3" />                                    
+                                    position="4" />                                    
 				            </flow:lanes>          
                     </flow:ProcessFlow>
 		        </FlexBox>

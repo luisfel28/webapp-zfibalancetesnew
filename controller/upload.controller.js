@@ -180,6 +180,7 @@ sap.ui.define([
                 var vPerExerc   = this.getView().byId("TxtPeriodoExercicio").getValue();
                 var oTable      = this.getView().byId("CSVTable"); 
                 var vFlow       = this.getView().byId("FlowBalancetes");
+                var vLnkContRes = this.getView().byId("LnkContRes");
 
                 var vTxtNaoIni  = this.getView().getModel("i18n").getResourceBundle().getText("FlowStatusInicial");
                 var vTxt04Suc  = this.getView().getModel("i18n").getResourceBundle().getText("MsgEtapa04Suc");
@@ -231,6 +232,15 @@ sap.ui.define([
                     vTeste = 'X';
                 }
 
+                var vTesteCont;
+                vLnkContRes.setProperty("visible", false);
+                if ( this.getView().byId("ChkModoExecCont").mProperties.state == true )
+                {
+                    vTesteCont = 'X';
+                    vLnkContRes.setProperty("visible", true);
+                }
+                
+
                 var fU = this.byId("fileUploader");
                 var domRef = fU.getFocusDomRef();
                 var file = domRef.files[0];
@@ -277,6 +287,7 @@ sap.ui.define([
                     oEntry.Gjahr        = vPerExerc.substring(3, 7);
                     oEntry.Monat        = vPerExerc.substring(0, 2);
                     oEntry.Teste        = vTeste;
+                    oEntry.TesteCont    = vTesteCont;
                     oEntry.TabData      = strCSV;
 
                     oModel.create("/zentfileSet", oEntry, {
@@ -296,6 +307,8 @@ sap.ui.define([
                                             title: "Execução em MODO TESTE",
                                             styleClass: "sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer" 
                                         });                                    
+                                    // Exibe validações de Contabilização
+                                    //this.ShowNode2_1();
                                 }
                                 else
                                 {
@@ -307,7 +320,7 @@ sap.ui.define([
                             else
                             {
 
-                            // ETAPA 1
+                            // IMPORTAÇÃO
                             if ( oResponse.data.Sucessos > 0 )
                             {
                                 vLane1.setState([{ state: "Positive", value: 1 }]);
@@ -335,7 +348,7 @@ sap.ui.define([
                                 vNode1.setStateText(oResponse.data.ImpDesc);
                             }
 
-                            // ETAPA 2
+                            // MONITOR
                             if ( oResponse.data.SucessosMon > 0 )
                             {
                                 vLane2.setState([{ state: "Positive", value: 1 }]);
@@ -353,13 +366,13 @@ sap.ui.define([
                                 vNode2.setStateText(oResponse.data.MonDesc);
                             }
 
-                            // ETAPA 2.1
-                            if ( oResponse.data.SucessosMon > 0 )
+                            // CONTABILIZAÇÃO
+                            if ( oResponse.data.SucessosCont > 0 )
                                 {
                                     vLane2_1.setState([{ state: "Positive", value: 1 }]);
                                     vNode2_1.setState("Positive");
                                 }
-                                else if ( oResponse.data.ErrosMon > 0 )
+                                else if ( oResponse.data.ErrosCont > 0 )
                                 {
                                     vLane2_1.setState([{ state: "Negative", value: 1 }]);
                                     vNode2_1.setState("Negative");
@@ -368,10 +381,10 @@ sap.ui.define([
                                 if ( vNode2_1.getState() != "Neutral" )
                                 {
                                     vNode2_1.setIsTitleClickable(true);
-                                    vNode2_1.setStateText(oResponse.data.MonDesc);
+                                    vNode2_1.setStateText(oResponse.data.ContDesc);
                                 }
 
-                            // ETAPA 3
+                            // ENVIO DE E-MAILS
                             if ( oResponse.data.Email == true && oResponse.data.EmailDesc.length != "" )
                             {
                                 vLane3.setState([{ state: "Positive", value: 1 }]);
@@ -646,7 +659,56 @@ sap.ui.define([
                 }
     
                 this.oApproveDialog.open();
-            }        
+            },
+
+            pressTest: function (event){
+                var vExecCont = this.getView().byId("ChkModoExecCont");
+                
+                if ( this.getView().byId("ChkModoExec").mProperties.state == true )
+                {
+                    vExecCont.setProperty("state", true);
+                }
+                else
+                {
+                    vExecCont.setProperty("state", false);                
+                };
+
+            },
+
+            ShowNode2_1: function (event)
+            {
+
+                var oSource = event.getSource(),
+                    oView   = this.getView(),
+                    oDadosDet = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZGW_BALANCETES_SRV", true);
+
+                ///oDadosDet.read("/zentcontlogSet?$filter=Sociedade eq '"+ vSoc +"' and Gjahr eq '"+ vAno +"' and Monat eq '"+ vMes + "'", {
+                oDadosDet.read("/zentcontlogSet", {
+                    
+                    success: function (oData, response) {
+                        this.WriteDataDet(oData);
+                    }.bind(this),
+                    error: function (err) {
+                        sap.ui.core.BusyIndicator.hide();
+                    }
+                }
+                );
+
+                if (!this._pPopover02_1) {
+                    this._pPopover02_1 = Fragment.load({
+                        id: oView.getId(),
+                        name: "com.fidelidademundial.zfibalancetes.view.etapa02_1",
+                        controller: this
+                    }).then(function(oPopover) {
+                        oView.addDependent(oPopover);
+                        return oPopover;
+                    });
+                }
+                this._pPopover02_1.then(function(oPopover) {
+                    oPopover.openBy(oSource);
+                });       
+
+            }
 
         });
     });

@@ -10,19 +10,29 @@
 			showCloseButton="true"
 			placement="Auto">
 		<VBox class="sapUiSmallMargin">
- 			<Table width="60%" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Contador,Znumber' } }" alternateRowColors="true">
+ 			<Table width="100%" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Contador,Znumber' } }" alternateRowColors="true">
 				<columns>
-					<Column>
+					<Column mergeDuplicates="true" width="6rem">
 						<header>
 							<Text text="Linha" />
 						</header>
 					</Column>	
-					<Column>
+					<Column hAlign="Center" width="6rem">
 						<header>
-							<Text text="Nº Mensagem" />
+							<Text text="Tipo"  />
 						</header>
-					</Column>															
-					<Column hAlign="Center">
+					</Column>	
+					<Column width="6rem">
+						<header>
+							<Text text="ID"  />
+						</header>
+					</Column>					
+					<Column width="6rem">
+						<header>
+							<Text text="Nº"  />
+						</header>
+					</Column>					
+					<Column hAlign="Left">
 						<header>
 							<Text text="Mensagem" />
 						</header>
@@ -30,6 +40,8 @@
 				</columns>
 				<ColumnListItem vAlign="Middle">
 					<Label text="{resultados>Contador}" design="Bold" />
+					<ObjectStatus icon="{resultados>Typeicon}" state="{resultados>Typestate}" />
+					<Label text="{resultados>Id}" design="Bold" />
 					<Label text="{resultados>Znumber}" design="Bold" />
 					<Label text="{resultados>Message}" />
 				</ColumnListItem>
