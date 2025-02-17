@@ -30,7 +30,7 @@
 				</columns>
 				<ColumnListItem vAlign="Middle">
 					<Label text="{resultados>Contador}" design="Bold" />
-					<Label text="{resultados>Znumber}" />
+					<Label text="{resultados>Znumber}" design="Bold" />
 					<Label text="{resultados>Message}" />
 				</ColumnListItem>
 			</Table>
