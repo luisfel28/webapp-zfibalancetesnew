@@ -128,14 +128,14 @@
                                     laneId="Etapa2"
                                     title="Etapa 2"
                                     titleAbbreviation="Etapa 2"
-                                    children="Node3"
+                                    children="Node2_1"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}" />
                                 <flow:ProcessFlowNode
                                     nodeId="Node2_1"
                                     laneId="Etapa2_1"
                                     title="Etapa 2_1"
-                                    titleAbbreviation="Etapa 2_1"
+                                    titleAbbreviation="Etapa 2.1"
                                     children="Node3"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}" />

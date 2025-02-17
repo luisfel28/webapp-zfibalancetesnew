@@ -201,6 +201,14 @@ sap.ui.define([
                 vNode2.setStateText(vTxtNaoIni);    
                 vNode2.setIsTitleClickable(false);    
 
+                // Contabilização
+                var vLane2_1      = vFlow.getLane("Etapa2_1");
+                var vNode2_1      = vFlow.getNode("Node2_1");
+                vLane2_1.setState([{ state: "Neutral", value: 1 }]);
+                vNode2_1.setState("Neutral");     
+                vNode2_1.setStateText(vTxtNaoIni);    
+                vNode2_1.setIsTitleClickable(false);    
+
                 // E-mail
                 var vLane3      = vFlow.getLane("Etapa3");
                 var vNode3      = vFlow.getNode("Node3");
@@ -345,6 +353,24 @@ sap.ui.define([
                                 vNode2.setStateText(oResponse.data.MonDesc);
                             }
 
+                            // ETAPA 2_1
+                            if ( oResponse.data.SucessosMon > 0 )
+                                {
+                                    vLane2_1.setState([{ state: "Positive", value: 1 }]);
+                                    vNode2_1.setState("Positive");
+                                }
+                                else if ( oResponse.data.ErrosMon > 0 )
+                                {
+                                    vLane2_1.setState([{ state: "Negative", value: 1 }]);
+                                    vNode2_1.setState("Negative");
+                                }
+    
+                                if ( vNode2_1.getState() != "Neutral" )
+                                {
+                                    vNode2_1.setIsTitleClickable(true);
+                                    vNode2_1.setStateText(oResponse.data.MonDesc);
+                                }
+
                             // ETAPA 3
                             if ( oResponse.data.Email == true && oResponse.data.EmailDesc.length != "" )
                             {
@@ -454,7 +480,36 @@ sap.ui.define([
                             });                    
                       
                       break;
-                    /// E-mails
+                    /// Contabilização
+                    case "Node2_1":
+
+                            oDadosDet.read("/zentcontlogSet?$filter=Sociedade eq '"+ vSoc +"' and Gjahr eq '"+ vAno +"' and Monat eq '"+ vMes + "'", {
+                    
+                                success: function (oData, response) {
+                                    this.WriteDataDet(oData);
+                                }.bind(this),
+                                error: function (err) {
+                                    sap.ui.core.BusyIndicator.hide();
+                                }
+                            }
+                            );
+
+                            if (!this._pPopover02_1) {
+                                this._pPopover02_1 = Fragment.load({
+                                    id: oView.getId(),
+                                    name: "com.fidelidademundial.zfibalancetes.view.etapa02_1",
+                                    controller: this
+                                }).then(function(oPopover) {
+                                    oView.addDependent(oPopover);
+                                    return oPopover;
+                                });
+                            }
+                            this._pPopover02_1.then(function(oPopover) {
+                                oPopover.openBy(oSource);
+                            });                    
+                      
+                      break;
+                      /// E-mails
                       case "Node3":
                       
                             oDadosDet.read("/zentmaillistlogSet", {
