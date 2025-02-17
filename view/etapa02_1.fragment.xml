@@ -10,31 +10,28 @@
 			showCloseButton="true"
 			placement="Auto">
 		<VBox class="sapUiSmallMargin">
- 			<Table width="60%" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'FullName' } }" alternateRowColors="true">
+ 			<Table width="60%" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Contador,Znumber' } }" alternateRowColors="true">
 				<columns>
 					<Column>
 						<header>
-							<Text text="Nome" />
+							<Text text="Linha" />
 						</header>
 					</Column>	
 					<Column>
 						<header>
-							<Text text="E-mail" />
+							<Text text="Nº Mensagem" />
 						</header>
 					</Column>															
 					<Column hAlign="Center">
 						<header>
-							<Text text="Status" />
+							<Text text="Mensagem" />
 						</header>
 					</Column>
 				</columns>
 				<ColumnListItem vAlign="Middle">
-					<Label text="{resultados>FullName}" design="Bold" />
-					<Link
-						text="{resultados>MemberAdr}"
-						emphasized="true"
-						href="mailto:{resultados>MemberAdr}" />
-					<ObjectStatus text="enviado" icon="sap-icon://outbox" state="Information" />
+					<Label text="{resultados>Contador}" design="Bold" />
+					<Label text="{resultados>Znumber}" />
+					<Label text="{resultados>Message}" />
 				</ColumnListItem>
 			</Table>
 		</VBox>

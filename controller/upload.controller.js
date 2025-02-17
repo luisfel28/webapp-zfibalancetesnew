@@ -353,7 +353,7 @@ sap.ui.define([
                                 vNode2.setStateText(oResponse.data.MonDesc);
                             }
 
-                            // ETAPA 2_1
+                            // ETAPA 2.1
                             if ( oResponse.data.SucessosMon > 0 )
                                 {
                                     vLane2_1.setState([{ state: "Positive", value: 1 }]);
