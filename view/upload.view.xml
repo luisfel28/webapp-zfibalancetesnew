@@ -118,7 +118,7 @@
                                     nodeId="Node1"
                                     laneId="Etapa1"
                                     title="Etapa 1"
-                                    titleAbbreviation="Etapa 1"
+                                    titleAbbreviation="Etapa 1X"
                                     children="Node2"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}"
