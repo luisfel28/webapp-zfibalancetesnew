@@ -10,8 +10,13 @@
 			showCloseButton="true"
 			placement="Auto">
 		<VBox class="sapUiSmallMargin">
- 			<Table width="100%" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Contador,Znumber' } }" alternateRowColors="true">
+ 			<Table width="100%" growing="true" growingThreshold="9999" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Tpdoc,Contador,Znumber' } }" alternateRowColors="true">
 				<columns>
+					<Column mergeDuplicates="true" width="10rem">
+						<header>
+							<Text text="Documento" />
+						</header>
+					</Column>	
 					<Column mergeDuplicates="true" width="6rem">
 						<header>
 							<Text text="Linha" />
@@ -19,7 +24,7 @@
 					</Column>	
 					<Column hAlign="Center" width="6rem">
 						<header>
-							<Text text="Tipo"  />
+							<Text text="Status"  />
 						</header>
 					</Column>	
 					<Column width="6rem">
@@ -39,6 +44,7 @@
 					</Column>
 				</columns>
 				<ColumnListItem vAlign="Middle">
+					<Label text="{resultados>Tpdoc}" design="Bold" />
 					<Label text="{resultados>Contador}" design="Bold" />
 					<ObjectStatus icon="{resultados>Typeicon}" state="{resultados>Typestate}" />
 					<Label text="{resultados>Id}" design="Bold" />

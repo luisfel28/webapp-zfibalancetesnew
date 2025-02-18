@@ -104,12 +104,23 @@
                             <l:HorizontalLayout class="sapUiSmallMarginTop">
                                 <l:VerticalLayout>
                                     <Label text="Execução de Teste de Contabilização" labelFor="ChkModoExecCont" class="TxtDados"></Label>
-                                    <Switch id="ChkModoExecCont" state="false">
+                                    <Switch id="ChkModoExecCont" state="false" >
                                         <layoutData>
                                             <FlexItemData growFactor="1" />
                                         </layoutData>
                                     </Switch>
-                                    <Link id="LnkContRes" visible="false" text="Ver resultados da simulação da Contabilização" press="ShowNode2_1" />
+                                </l:VerticalLayout>
+                                <l:VerticalLayout class="sapUiSmallMarginTop">
+                                    <!-- <Link id="LnkContRes" visible="false" text="Ver resultados da simulação da Contabilização" press="ShowNode2_1" /> -->
+                                    <Button
+                                        id="LnkContRes"
+                                        class="BotSimuCont"
+                                        icon="sap-icon://list"
+                                        type="Default"
+                                        press="ShowNode2_1"
+                                        enabled="false"
+                                        text="Resultados da simulação da Contabilização">
+                                    </Button>
                                 </l:VerticalLayout>
                             </l:HorizontalLayout>                            
                 </l:VerticalLayout>
@@ -145,7 +156,7 @@
                                 <flow:ProcessFlowNode
                                     nodeId="Node2_1"
                                     laneId="Etapa2_1"
-                                    title="Etapa 2_1"
+                                    title="Etapa 3"
                                     titleAbbreviation="Etapa 3"
                                     children="Node3"
                                     state="Neutral"
@@ -153,7 +164,7 @@
                                 <flow:ProcessFlowNode
                                     nodeId="Node3"
                                     laneId="Etapa3"
-                                    title="Etapa 3"
+                                    title="Etapa 4"
                                     titleAbbreviation="Etapa 4"
                                     children="Node4"
                                     state="Neutral"
@@ -161,7 +172,7 @@
                                 <flow:ProcessFlowNode
                                     nodeId="Node4"
                                     laneId="Etapa4"
-                                    title="Etapa 4"
+                                    title="Etapa 5"
                                     titleAbbreviation="Etapa 5"
                                     state="Neutral"
                                     stateText="{i18n>FlowStatusInicial}" />                           

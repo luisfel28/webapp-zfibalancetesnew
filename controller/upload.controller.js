@@ -233,11 +233,11 @@ sap.ui.define([
                 }
 
                 var vTesteCont;
-                vLnkContRes.setProperty("visible", false);
+                vLnkContRes.setProperty("enabled", false);
                 if ( this.getView().byId("ChkModoExecCont").mProperties.state == true )
                 {
                     vTesteCont = 'X';
-                    vLnkContRes.setProperty("visible", true);
+                    vLnkContRes.setProperty("enabled", true);
                 }
                 
 
