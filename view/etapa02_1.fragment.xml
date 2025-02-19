@@ -10,7 +10,7 @@
 			showCloseButton="true"
 			placement="Auto">
 		<VBox class="sapUiSmallMargin">
- 			<Table width="100%" growing="true" growingThreshold="9999" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Tpdoc,Contador,Znumber' } }" alternateRowColors="true">
+ 			<Table width="100%" growing="true" growingThreshold="9999" id="TabDetails02_1" items="{ path:'resultados>/results', sorter: { path: 'Tpdoc,Waers,Contador' } }" alternateRowColors="true">
 				<columns>
 					<Column mergeDuplicates="true" width="10rem">
 						<header>
@@ -19,7 +19,12 @@
 					</Column>	
 					<Column mergeDuplicates="true" width="6rem">
 						<header>
-							<Text text="Linha" />
+							<Text text="Moeda"  />
+						</header>
+					</Column>	
+					<Column width="6rem">
+						<header>
+							<Text text="Ítem" />
 						</header>
 					</Column>	
 					<Column hAlign="Center" width="6rem">
@@ -27,7 +32,7 @@
 							<Text text="Status"  />
 						</header>
 					</Column>	
-					<Column width="6rem">
+					<Column width="12rem">
 						<header>
 							<Text text="ID"  />
 						</header>
@@ -45,6 +50,7 @@
 				</columns>
 				<ColumnListItem vAlign="Middle">
 					<Label text="{resultados>Tpdoc}" design="Bold" />
+					<Label text="{resultados>Waers}" design="Bold" />
 					<Label text="{resultados>Contador}" design="Bold" />
 					<ObjectStatus icon="{resultados>Typeicon}" state="{resultados>Typestate}" />
 					<Label text="{resultados>Id}" design="Bold" />
