@@ -210,6 +210,13 @@
         </f:SimpleForm>            
         <footer>
             <OverflowToolbar >
+                <Button id="BtnVal"
+					icon="sap-icon://message-error"
+					visible="false"
+                    type="Negative"
+					text= "Erros - Validações"
+                    tooltip="Visualizar Erros"
+					press="ViewValidations"/>            
                 <MessageStrip
                     id="MsgStrip"
                     visible="false"

@@ -13,12 +13,19 @@ sap.ui.define([
     "sap/ui/core/Fragment",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/BusyIndicator",
-    "sap/m/MessageBox"	        
+    "sap/m/MessageBox",
+    "sap/m/MessageItem",
+    "sap/m/MessageView",
+    "sap/m/Bar",
+    "sap/m/Popover",
+    "sap/ui/core/IconPool", 
+    "sap/ui/core/Icon",
+    "sap/m/Title"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, Export, ExportTypeCSV, Button, mobileLibrary, Dialog, MessageToast, Text, ProcessFlow, Fragment, JSONModel, BusyIndicator, MessageBox ) {
+    function (Controller, Filter, FilterOperator, Export, ExportTypeCSV, Button, mobileLibrary, Dialog, MessageToast, Text, ProcessFlow, Fragment, JSONModel, BusyIndicator, MessageBox, MessageItem, MessageView, Bar, Popover, IconPool, Icon, Title ) {
         "use strict";
         
 	    var ButtonType = mobileLibrary.ButtonType;
@@ -172,6 +179,11 @@ sap.ui.define([
 
             handleUploadPress: function() {
                 
+                var vBtnVal = this.getView().byId("BtnVal");
+
+                // Oculta botão de Validações
+                vBtnVal.setProperty("visible", false);
+
                 var oMsgStrip = this.getView().byId("MsgStrip");
                 oMsgStrip.setProperty("visible", false);
 
@@ -298,6 +310,13 @@ sap.ui.define([
                             vMes = oResponse.data.Monat;
                             vInd = oResponse.data.Indice; 
 
+                            if ( oResponse.data.ErrosVal )
+                            {
+                                vBtnVal.setProperty("visible", true);
+                                BusyIndicator.hide();
+                                return;
+                            };
+
                             if ( oResponse.data.ErrosIntegracao != "" )
                             {
                                 if ( vTeste == 'X' )
@@ -421,6 +440,93 @@ sap.ui.define([
                 };
                 reader.readAsBinaryString(file);
             },            
+
+            ViewValidations: function (oEvent) {
+                var oDadosDet = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZGW_BALANCETES_SRV", true),
+                    oModel = new JSONModel(),
+                    vEvent = oEvent.getSource();
+
+                    var that = this;
+
+                    var oMessageTemplate = new MessageItem({
+                        type: '{TypeVal}',
+                        title: '{TitVal}',
+                        description: '{DescVal}',
+                        subtitle: '{SubtitVal}',
+                        groupName: '{GrpVal}'
+                    });
+
+                oDadosDet.read("/zentValidationsSet?$format=json", {
+                    
+                    success: function (oData, response) {
+                        
+                         this.oMessageView = new MessageView({
+                            showDetailsPageHeader: false,
+                            itemSelect: function () {
+                                oBackButton.setVisible(true);
+                            },
+                            items: {
+                                path: "/",
+                                template: oMessageTemplate
+                            },
+                            groupItems: true
+                        });
+
+                        var oBackButton = new Button({
+                            icon: IconPool.getIconURI("nav-back"),
+                            visible: false,
+                            press: function () {
+                                that.oMessageView.navigateBack();
+                                that._oPopover.focus();
+                                this.setVisible(false);
+                            }
+                        });
+                        
+                        oModel.setData(oData.results);
+                        this.oMessageView.setModel(oModel);
+
+                        var oCloseButton =  new Button({
+                            text: "Close",
+                            press: function () {
+                                that._oPopover.close();
+                            }
+                        }).addStyleClass("sapUiTinyMarginEnd"),
+                        oPopoverFooter = new Bar({
+                            contentRight: oCloseButton
+                        }),
+                        oPopoverBar = new Bar({
+                            contentLeft: [oBackButton],
+                            contentMiddle: [
+                                new Title({text: "Validações"})
+                            ]
+                        });
+                            
+                        this._oPopover = new Popover({
+                            customHeader: oPopoverBar,
+                            contentWidth: "440px",
+                            contentHeight: "440px",
+                            verticalScrolling: false,
+                            modal: true,
+                            content: [this.oMessageView],
+                            footer: oPopoverFooter
+                        });                       
+                        
+                        this._oPopover.openBy(vEvent);
+
+                    }.bind(this),
+                    error: function (err) {
+
+                    }
+                }
+                );
+
+//                this.oMessageView.navigateBack();
+                /* if ( this._oPopover != undefined )                
+                {
+                    this._oPopover.openBy(oEvent.getSource());
+                }; */
+
+            },
 
             onNodePress: function (event) {
 
