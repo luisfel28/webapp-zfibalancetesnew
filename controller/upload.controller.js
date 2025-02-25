@@ -521,12 +521,6 @@ sap.ui.define([
                 }
                 );
 
-//                this.oMessageView.navigateBack();
-                /* if ( this._oPopover != undefined )                
-                {
-                    this._oPopover.openBy(oEvent.getSource());
-                }; */
-
             },
 
             onNodePress: function (event) {
@@ -740,8 +734,6 @@ sap.ui.define([
                 {
                     return;
                 }
-
-                //this.ValidaFicheiro();                
 
                 if (!this.oApproveDialog) {
                     this.oApproveDialog = new Dialog({
