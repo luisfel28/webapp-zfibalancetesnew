@@ -497,7 +497,8 @@ sap.ui.define([
                         oPopoverBar = new Bar({
                             contentLeft: [oBackButton],
                             contentMiddle: [
-                                new Title({text: "Validações"})
+                                new Icon({src: "sap-icon://list", color: "#FF0000" }),
+                                new Title({text: "Erros - Validações"})
                             ]
                         });
                             
